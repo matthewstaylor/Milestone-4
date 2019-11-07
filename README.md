@@ -1,11 +1,10 @@
-# Milestone-0
+# Milestone-4
 
 ## Project Group 12
 
 CEN 4010 Principles of Software Engineering
 
-Milestone 0: Development Infrastructure Setup and 
-Team Organization
+Milestone 4: Beta Launch and Final Project Reviews
 
 Florida Atlantic University
 
