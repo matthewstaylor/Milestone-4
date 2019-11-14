@@ -59,7 +59,7 @@ const submit = async () => {
   // action to the redux store, setting "user_id" to the value
   // of the z_number. This should be stored in a cookie on the
   // client's browser and checked by the server on every api call
-  // to varify the user is actually in fact, signed in.
+  // to verify the user is actually in fact, signed in.
   console.log(res.data);
 };
 
