@@ -49,5 +49,3 @@ function validate()
 
     close_connection($db);
 }
-
-echo validate();
