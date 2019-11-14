@@ -1,10 +1,16 @@
-// This script should do the following:
-//   ensure the user enters the correct credentials
-//   create a hash and store it in the cookie_hash table on the db
-//   if the cookie_hash already exists, update the existing one
-//   set a cookie called "id" with a duration of one month with the hash value
-
 <?php
+/*
+This script should do the following:
+  ensure the user enters the correct credentials
+  create a hash and store it in the cookie_hash table on the db
+  if the cookie_hash already exists, update the existing one
+  set a cookie called "id" with a duration of one month with the hash value
+*/
+
+// Error code constants.
+include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
+
+// Database connector functions.
 include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
 
 if (isset($_POST["username"], $_POST["password"]) && $_POST["password"] != "") {
@@ -73,24 +79,14 @@ if (isset($_POST["username"], $_POST["password"]) && $_POST["password"] != "") {
     // Case where login is unsuccessful.
     else {
         echo json_encode(array(
-            "cod" => "404"
+            "cod" => "404",
+            "username" => ""
         ));
     }
 
     close_connection($db);
 } else {
-    // Connect to the db.
-    $db = open_connection();
-
-    if ($db->connect_errno) {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    }
-
-    // Query the db.
-    $query = "SELECT * FROM users WHERE username = 'test'";
-    $res = $db->query($query);
-
-    echo json_encode($res->fetch_assoc());
-
-    close_connection($db);
+    echo json_encode(array(
+        "cod" => BAD_REQUEST
+    ));
 }
