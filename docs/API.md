@@ -13,6 +13,8 @@ Here is a list of all the error codes and their meanings used throughout
 this API. The definitions can be found at `./api/error_codes.php`,
 and should be included in all API endpoints to reference the correct error code.
 
+Note, if you include the validad.php script, this script will already be included.
+
 ```
 {
   "cod": {
@@ -30,9 +32,22 @@ and should be included in all API endpoints to reference the correct error code.
 
 ## Validate Script
 
-This script should be included in most API endpoints to avoid re-implementing each time.
+This script should be included in all API endpoints, except login and logout, to avoid
+re-implementing each time.
 
 This script can be found at `./api/validate.php`.
+
+### Functions
+
+```
+validate() => bool
+```
+
+#### Outcome
+
+If true, the user is assumed to be logged in. False otherwise.
+
+---
 
 ## Login
 
@@ -79,6 +94,8 @@ If both username and password are not provided:
   cod: BAD_REQUEST
 }
 ```
+
+---
 
 ## Logout
 

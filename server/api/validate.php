@@ -1,47 +1,53 @@
 <?php
 /*
-This script should be included in all API calls.
+This should be included in most API calls.
 This script should do the following:
   check the user is logged in by comparing the cookie's hash
     value with the cookie_hash table
+  If the user is authenticated, the function will return true, false otherwise.
  */
 
 // Error code constants.
-include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
 
-if (!isset($_COOKIE["id"])) {
-    echo json_encode(array(
-        "cod" => "404"
-    ));
-} else {
-    $hash = $_COOKIE["id"];
+// Database connector functions.
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
 
-    // Prepare statement.
-    $sql = "SELECT z_number
+function validate()
+{
+    $db = open_connection();
+    
+    if (!isset($_COOKIE["id"])) {
+        return false;
+    } else {
+        $hash = $_COOKIE["id"];
+
+        // Prepare statement.
+        $sql = "SELECT id
             FROM cookie_hash
             WHERE hash = ?";
     
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("s", $hash);
-    $stmt->execute();
+        $stmt = $db->prepare($sql);
+        $stmt->bind_param("s", $hash);
+        $stmt->execute();
 
-    // Bind results.
-    $stmt->store_result();
-    $stmt->bind_result($z_number);
-    $stmt->fetch();
-    $stmt->close();
+        // Bind results.
+        $stmt->store_result();
+        $stmt->bind_result($z_number);
+        $stmt->fetch();
+        $stmt->close();
 
-    if ($z_number) {
-        echo json_encode(array(
-            "cod" => "200",
-            "z_number" => $z_number
-        ));
-    } else {
-        echo json_encode(array(
-            "cod" => "404"
-        ));
+        if ($z_number) {
+            return true;
+        } else {
+            return false;
 
-        // Delete the cookie.
-        setcookie("id", "", 0, "/~cen4010fal19_g12/campus_snapshots/");
+            // Delete the cookie.
+            setcookie("id", "", 0, "/~cen4010fal19_g12/campus_snapshots/");
+        }
     }
+
+    close_connection($db);
 }
+
+echo validate();
