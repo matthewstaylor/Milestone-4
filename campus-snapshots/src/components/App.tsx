@@ -11,7 +11,7 @@ function App() {
   return (
     <Provider store={store}>
       <React.Fragment>
-        <CustomRouter path="/login" />
+        <CustomRouter path="/" />
       </React.Fragment>
     </Provider>
   );
