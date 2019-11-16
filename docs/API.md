@@ -131,9 +131,9 @@ Should kill or invalidate the cookie of the current user.
 
 ```
 {
-  posts?: int,          // Number of posts required. 10 will be returned by default.
-  sort?: "abc" | "date" | "votes",
-  ascending?: bool       // True by default, returns from first to last.
+  posts?: int,                        // Number of posts required. 10 will be returned by default.
+  sort?: "abc" | "date" | "votes",    // "date" by default.
+  ascending?: bool                    // True by default, returns from first to last.
 }
 ```
 
@@ -146,6 +146,7 @@ If signed in:
   cod: OK,
   title: string,
   content: string,
+  type: “event” | “announcement” | “issue”,
   votes: int,
   status: "pending" | "in progress" | "solved",
   created: int,         // Note: Unix timestamp (the number of seconds since the
