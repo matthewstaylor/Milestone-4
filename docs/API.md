@@ -21,11 +21,11 @@ Note, if you include the validad.php script, this script will already be include
     OK:             "200",         // Successful query.
     CREATED:        "201",         // When a resource has been properly stored, i.e. a new user, image upload, etc.
     BAD_REQUEST:    "400",         // When incorrect or malformed parameters are received by the server.
+    NO_AUTH:        "401",         // User is not signed in.
     FORBIDDEN:      "403",         // Attempting to access privileged features, i.e. student accessing employee features.
     NOT_FOUND:      "404",         // Requesting a non-existent resource or a username that does not exist.
     INVALID_METHOD: "405",          // An inappropriate method was used. This API should only really use POST requests.
     INVALID_FILE:   "415",          // An unsupported file type is sent to the server.
-
   }
 }
 ```
@@ -113,9 +113,60 @@ NULL                    // Just querying the endpoint should trigger the logout 
 
 ```
 {
-  cod: OK,
-  z_number: ""
+  cod: OK
 }
 ```
 
 Should kill or invalidate the cookie of the current user.
+
+---
+
+## Get Posts
+
+### Endpoint
+
+`./api/getposts/`
+
+### Request
+
+```
+{
+  posts?: int,          // Number of posts required. 10 will be returned by default.
+  sort?: "abc" | "date" | "votes",
+  ascending?: bool       // True by default, returns from first to last.
+}
+```
+
+### Response
+
+If signed in:
+
+```
+{
+  cod: OK,
+  title: string,
+  content: string,
+  votes: int,
+  status: "pending" | "in progress" | "solved",
+  created: int,         // Note: Unix timestamp (the number of seconds since the
+                        // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
+  solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
+  inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+}
+```
+
+If signed out:
+
+```
+{
+  cod: NO_AUTH,
+  title: string,
+  content: string,
+  votes: int,
+  status: "pending" | "in progress" | "solved",
+  created: int,         // Note: Unix timestamp (the number of seconds since the
+                        // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
+  solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
+  inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+}
+```

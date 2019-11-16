@@ -4,6 +4,9 @@ This script logs the user out by invalidating their cookie and
 deleting it from the cookie_hash table.
 */
 
+// Error code constants.
+include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
+
 // Database connector functions.
 include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
 
@@ -46,3 +49,7 @@ if (isset($_COOKIE["id"])) {
     // Close db connection.
     close_connection($db);
 }
+
+echo json_encode(array(
+    "cod" => OK
+));
