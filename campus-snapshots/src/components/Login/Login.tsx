@@ -13,6 +13,18 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import {signUserIn} from "../../redux/actions/Landing/landing.actions";
+
+export interface Props {
+
+}
+
+export interface Dispatch {
+    signUserIn: (userId: string) => void
+}
+
+interface PropsCombined extends Props, Dispatch {
+}
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -39,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const submit = async () => {
+const submit = async (signUserIn: (userId: string) => void ) => {
   const username = (document.getElementById("username") as HTMLFormElement)
     .value;
   const password = (document.getElementById("password") as HTMLFormElement)
@@ -61,9 +73,10 @@ const submit = async () => {
   // client's browser and checked by the server on every api call
   // to verify the user is actually in fact, signed in.
   console.log(res.data);
+  signUserIn(res.data.username);
 };
 
-export default function SignIn() {
+export default function SignIn(props: PropsCombined) {
   const classes = useStyles();
 
   return (
@@ -108,7 +121,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={submit}
+            onClick={() => submit(props.signUserIn)}
           >
             Sign In
           </Button>
