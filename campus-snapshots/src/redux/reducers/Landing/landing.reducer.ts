@@ -15,7 +15,7 @@ const initialState: LandingState = {
     posts: [],
     userName: "",
     userID: "",
-    authenticated: false
+    authenticated: true
 };
 
 

@@ -130,7 +130,7 @@ export default function Landing(props: PropsCombined) {
                 <div className={classes.cardDetails}>
                   <CardContent>
                     <Grid container item xs={12} spacing={3} >
-                      <Grid item xs={1}
+                      <Grid item md={1} xs={2}
                         className={classes.ratingZone}
                         direction="column">
                         <IconButton>
@@ -141,7 +141,7 @@ export default function Landing(props: PropsCombined) {
                           <DetailsTwoToneIcon />
                         </IconButton>
                       </Grid>
-                      <Grid item xs={11} >
+                      <Grid item md={11} xs={10}>
                         <Typography component="h2" variant="h5">
                           {post.title}
                         </Typography>
