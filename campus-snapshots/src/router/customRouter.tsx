@@ -4,8 +4,9 @@ import { LandingPage } from "../components/Landing/landing.container";
 import { CampusSnapshotsAppBar } from "../components/Appbar/appbar.container";
 
 interface RouterProps {
-    path: string
+  path: string;
 }
+
 class CustomRouter extends React.Component<RouterProps>{
     state: {
         currentPath: string
@@ -35,8 +36,7 @@ class CustomRouter extends React.Component<RouterProps>{
                 return <CampusSnapshotsAppBar children={<LandingPage/>}/>;
         }
     }
-
+  }
 }
 
 export default CustomRouter;
-
