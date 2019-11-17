@@ -1,7 +1,7 @@
 import React from "react";
-import {LoginPage} from "../components/Login/Login.container";
-import { string } from "prop-types";
-import Landing from "../components/Landing/landing.component"
+import { LoginPage } from "../components/Login/Login.container";
+import { LandingPage } from "../components/Landing/landing.container";
+import { CampusSnapshotsAppBar } from "../components/Appbar/appbar.container";
 
 interface RouterProps {
     path: string
@@ -10,7 +10,7 @@ class CustomRouter extends React.Component<RouterProps>{
     state: {
         currentPath: string
     }
-    constructor(props: RouterProps){
+    constructor(props: RouterProps) {
         super(props);
         this.state = {
             currentPath: this.props.path
@@ -18,19 +18,21 @@ class CustomRouter extends React.Component<RouterProps>{
     }
 
     handleRedirect = (newLink: string) => {
-        this.setState({currentPath: newLink});
+        this.setState({ currentPath: newLink });
     }
 
-    render(){
-        switch(this.state.currentPath){
+    render() {
+        switch (this.state.currentPath) {
             case "/":
-                return <Landing/>;
+                return <CampusSnapshotsAppBar 
+                            children={<LandingPage
+                            redirectLinkHandler={this.handleRedirect}/>}/>;
                 break;
             case "/login":
                 return <LoginPage/>;
                 break;
             default:
-                return <Landing/>
+                return <CampusSnapshotsAppBar children={<LandingPage/>}/>;
         }
     }
 
