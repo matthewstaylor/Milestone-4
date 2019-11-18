@@ -13,7 +13,7 @@ Here is a list of all the error codes and their meanings used throughout
 this API. The definitions can be found at `./api/error_codes.php`,
 and should be included in all API endpoints to reference the correct error code.
 
-Note, if you include the validad.php script, this script will already be included.
+Note, if you include the validate.php script, this script will already be included.
 
 ```
 {
@@ -135,7 +135,7 @@ Should kill or invalidate the cookie of the current user.
   type?: string,                      // Type of posts. Default is "all".
   sort?: "abc" | "date" | "votes",    // "date" by default.
   notAscending?: bool                 // false by default, providing anything in this
-                                      // parameter sets it to true, exscept an empty string.
+                                      // parameter sets it to true, except an empty string.
 }
 ```
 
