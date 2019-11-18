@@ -132,8 +132,10 @@ Should kill or invalidate the cookie of the current user.
 ```
 {
   posts?: int,                        // Number of posts required. 10 will be returned by default.
+  type?: string,                      // Type of posts. Default is "all".
   sort?: "abc" | "date" | "votes",    // "date" by default.
-  ascending?: bool                    // True by default, returns from first to last.
+  notAscending?: bool                 // false by default, providing anything in this
+                                      // parameter sets it to true, exscept an empty string.
 }
 ```
 
@@ -144,15 +146,20 @@ If signed in:
 ```
 {
   cod: OK,
-  title: string,
-  content: string,
-  type: “event” | “announcement” | “issue”,
-  votes: int,
-  status: "pending" | "in progress" | "solved",
-  created: int,         // Note: Unix timestamp (the number of seconds since the
-                        // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
-  solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
-  inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+  posts: [
+    author: string,       // Author's username
+    imgURL: string,       // URL to the post's image.
+    title: string,
+    content: string,
+    type: “event” | “announcement” | “issue”,
+    votes: int,
+    status: "pending" | "in progress" | "solved",
+    created: int,         // Note: Unix timestamp (the number of seconds since the
+                          // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
+    solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
+    inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+  ],
+  [/* another post */]
 }
 ```
 
@@ -161,9 +168,11 @@ If signed out:
 ```
 {
   cod: NO_AUTH,
+  author: string,       // Author's username
   imgURL: string,       // URL to the post's image.
   title: string,
   content: string,
+  type: “event” | “announcement” | “issue”,
   votes: int,
   status: "pending" | "in progress" | "solved",
   created: int,         // Note: Unix timestamp (the number of seconds since the
