@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -13,14 +13,15 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {signUserIn} from "../../redux/actions/Landing/landing.actions";
+import { signUserIn } from "../../redux/actions/Landing/landing.actions";
 
 export interface Props {
-
+  isAuthenticated: boolean,
+  redirect: (route) => void
 }
 
 export interface Dispatch {
-    signUserIn: (userId: string) => void
+  signUserIn: (userId: string) => void
 }
 
 interface PropsCombined extends Props, Dispatch {
@@ -51,7 +52,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const submit = async (signUserIn: (userId: string) => void ) => {
+const submit = async (signUserIn: (userId: string) => void) => {
   const username = (document.getElementById("username") as HTMLFormElement)
     .value;
   const password = (document.getElementById("password") as HTMLFormElement)
@@ -73,11 +74,20 @@ const submit = async (signUserIn: (userId: string) => void ) => {
   // client's browser and checked by the server on every api call
   // to verify the user is actually in fact, signed in.
   console.log(res.data);
-  signUserIn(res.data.username);
+  if (res.data.cod === "200") {
+    signUserIn(res.data.username);
+  }
 };
 
 export default function SignIn(props: PropsCombined) {
   const classes = useStyles();
+
+  useEffect(() => {
+    if (props.isAuthenticated) {
+      props.redirect('/');
+    }
+  });
+
 
   return (
     <Container component="main" maxWidth="xs">

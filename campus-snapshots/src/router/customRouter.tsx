@@ -30,7 +30,7 @@ class CustomRouter extends React.Component<RouterProps>{
                         redirectLinkHandler={this.handleRedirect} />} />;
                 break;
             case "/login":
-                return <LoginPage />;
+                return <LoginPage redirectLinkHandler={this.handleRedirect}/>;
                 break;
             default:
                 return <CampusSnapshotsAppBar children={<LandingPage />} />;
