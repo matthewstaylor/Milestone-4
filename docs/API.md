@@ -168,16 +168,19 @@ If signed out:
 ```
 {
   cod: NO_AUTH,
-  author: string,       // Author's username
-  imgURL: string,       // URL to the post's image.
-  title: string,
-  content: string,
-  type: “event” | “announcement” | “issue”,
-  votes: int,
-  status: "pending" | "in progress" | "solved",
-  created: int,         // Note: Unix timestamp (the number of seconds since the
-                        // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
-  solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
-  inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+  posts: [
+    author: string,       // Author's username
+    imgURL: string,       // URL to the post's image.
+    title: string,
+    content: string,
+    type: “event” | “announcement” | “issue”,
+    votes: int,
+    status: "pending" | "in progress" | "solved",
+    created: int,         // Note: Unix timestamp (the number of seconds since the
+                          // beginning of the Unix epoch: January 1 1970, 00:00:00 GMT).
+    solved: int,          // Unix timestamp the issue was solved. 0 if not solved.
+    inProgress: int       // Unix timestamp the issue began progress. 0 if not solved.
+  ],
+  [/* another post */]
 }
 ```
