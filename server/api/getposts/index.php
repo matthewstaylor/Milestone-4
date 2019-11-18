@@ -24,7 +24,9 @@ if (isset($_POST["ascending"])) {
     $ascending = (bool)$_POST["ascending"];
 }
 
-// Prepare statment.
+// Prepare statement.
+
+
 $sql = "SELECT * FROM post
         ORDER BY created DESC
         LIMIT ?";
@@ -37,10 +39,12 @@ $stmt->execute();
 $stmt->store_result();
 $stmt->bind_result($id, $author, $img, $title, $content, $type, $votes, $status, $created, $solved, $in_progress);
 
+$img_url = "http://lamp.cse.fau.edu/~cen4010fal19_g12/campus_snapshots/server/";
+
 while ($stmt->fetch()) {
     $res[] = array(
         "author" => $author,
-        "imgURL" => $img,
+        "imgURL" => $img_url.$img,
         "title" => $title,
         "content" => $content,
         "type" => $type,
@@ -51,7 +55,15 @@ while ($stmt->fetch()) {
         "inProgress" => $in_progress);
 }
 
-echo json_encode(array("cod" => OK, "posts" => $res));
+// Verify login for posts.
+$validated = validate();
+if ($validated) {
+    $err_code = OK;
+} else {
+    $err_code = NO_AUTH;
+}
+
+echo json_encode(array("cod" => $err_code, "posts" => $res));
 
 // Close db connection.
 close_connection($db);
