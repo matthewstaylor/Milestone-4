@@ -1,4 +1,3 @@
-# Primary users table.
 CREATE TABLE user(
     z_number CHAR(9) NOT NULL UNIQUE,
     username VARCHAR(32) NOT NULL UNIQUE,
@@ -22,7 +21,7 @@ CREATE TABLE cookie(
 # Primary post table.
 CREATE TABLE post( 
     id INT AUTO_INCREMENT NOT NULL,
-    author CHAR(9) NOT NULL,
+    author VARCHAr(32) NOT NULL,
     image VARCHAR(255) UNIQUE NOT NULL,
     title VARCHAR(64) NOT NULL,
     content TEXT NOT NULL,
@@ -32,7 +31,7 @@ CREATE TABLE post(
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     solved DATETIME,
     inProgress DATETIME,
-    FOREIGN KEY (author) REFERENCES user(z_number),
+    FOREIGN KEY (author) REFERENCES user(username),
     PRIMARY KEY (id)
 );
 
