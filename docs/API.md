@@ -161,6 +161,7 @@ If signed out:
 ```
 {
   cod: NO_AUTH,
+  imgURL: string,       // URL to the post's image.
   title: string,
   content: string,
   votes: int,

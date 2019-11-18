@@ -23,8 +23,8 @@ function validate()
         $hash = $_COOKIE["id"];
 
         // Prepare statement.
-        $sql = "SELECT id
-            FROM cookie_hash
+        $sql = "SELECT z_number
+            FROM cookie
             WHERE hash = ?";
     
         $stmt = $db->prepare($sql);

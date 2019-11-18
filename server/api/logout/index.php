@@ -5,10 +5,10 @@ deleting it from the cookie_hash table.
 */
 
 // Error code constants.
-include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
 
 // Database connector functions.
-include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
 
 // Check cookie
 if (isset($_COOKIE["id"])) {
@@ -17,8 +17,8 @@ if (isset($_COOKIE["id"])) {
     $hash = $_COOKIE["id"];
 
     // Prepare statement.
-    $sql = "SELECT id
-            FROM cookie_hash
+    $sql = "SELECT z_number
+            FROM cookie
             WHERE hash = ?";
     
     $stmt = $db->prepare($sql);
@@ -34,7 +34,7 @@ if (isset($_COOKIE["id"])) {
     // Delete the cookie from the table.
     if ($z_number) {
         // Prepare statement.
-        $sql = "DELETE FROM cookie_hash
+        $sql = "DELETE FROM cookie
                 WHERE hash = ?";
 
         $stmt = $db->prepare($sql);

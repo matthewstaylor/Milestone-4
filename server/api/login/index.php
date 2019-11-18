@@ -8,16 +8,16 @@ This script should do the following:
 */
 
 // Error code constants.
-include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/api/error_codes.php");
 
 // Database connector functions.
-include("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
+include_once("/home/cen4010fal19_g12/public_html/campus_snapshots/server/db_connection.php");
 
-if (isset($_POST["username"], $_POST["password"]) && $_POST["password"] != "") {
+if (isset($_POST["username"], $_POST["password"]) && $_POST["username"] != "" && $_POST["password"] != "") {
     $db = open_connection();
 
-    $sql = "SELECT z_number, username, password
-            FROM users
+    $sql = "SELECT z_number, username, password_hash
+            FROM user
             WHERE username = ?";
 
     // Prepare query.
@@ -42,7 +42,7 @@ if (isset($_POST["username"], $_POST["password"]) && $_POST["password"] != "") {
         $sha1 = sha1($z_number.(string)rand());
 
         // Insert into cookie_hash db table.
-        $sql = "INSERT INTO cookie_hash(id, hash)
+        $sql = "INSERT INTO cookie(z_number, hash)
                  VALUES (?, ?)";
 
         // Bind parameters.
@@ -53,9 +53,9 @@ if (isset($_POST["username"], $_POST["password"]) && $_POST["password"] != "") {
 
         // if entry already exists, update to a new hash and set a new cookie.
         if (!$check) {
-            $sql = "UPDATE cookie_hash
+            $sql = "UPDATE cookie
                     SET hash = ?
-                    WHERE id = ?";
+                    WHERE z_number = ?";
 
             $stmt = $db->prepare($sql);
             $stmt->bind_param("ss", $sha1, $z_number);
