@@ -26,6 +26,7 @@ CREATE TABLE post(
     image VARCHAR(255) UNIQUE NOT NULL,
     title VARCHAR(64) NOT NULL,
     content TEXT NOT NULL,
+    type ENUM('announcement', 'event', 'issue') NOT NULL,
     votes INT UNSIGNED DEFAULT 0,
     status ENUM('pending', 'in-progress', 'solved') NOT NULL DEFAULT 'pending',
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,9 +37,9 @@ CREATE TABLE post(
 );
 
 # Sample entry
-INSERT INTO post(author, image, title, content)
-    VALUES('Z12345678', 'test.png', 'First test title', 'First test content!');
-    INSERT INTO post(author, image, title, content)
-    VALUES('Z12345678', 'test.png', 'Second test title', 'Second test content!');
-    INSERT INTO post(author, image, title, content)
-    VALUES('Z12345678', 'test.png', 'Third test title', 'Third test content!');
+INSERT INTO post(author, image, title, content, type)
+    VALUES('Z12345678', 'test.png', 'First test title', 'First test content!', 'announcement');
+INSERT INTO post(author, image, title, content, type)
+    VALUES('Z12345678', 'test2.png', 'Second test title', 'Second test content!', 'event');
+INSERT INTO post(author, image, title, content, type)
+    VALUES('Z12345678', 'test3.png', 'Third test title', 'Third test content!', 'issue');
