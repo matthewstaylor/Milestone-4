@@ -9,4 +9,4 @@ export const loadAllPosts = (posts: Array<Object>) => ({
 export const signUserIn = (userId) => ({
     type: SIGN_USER_IN,
     userId
-})
+});

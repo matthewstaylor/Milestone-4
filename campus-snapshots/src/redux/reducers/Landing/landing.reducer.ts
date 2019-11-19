@@ -2,10 +2,10 @@ import {
     LOAD_ALL_POSTS,
     SIGN_USER_IN
 } from '../../actions/Landing/landing.actions';
-
+import { PostInterface } from '../../../models/post.model';
 
 export interface LandingState {
-    posts: Array<Object>,
+    posts: Array<PostInterface>,
     userName: string,
     userID?: string,
     authenticated: boolean
@@ -25,7 +25,8 @@ const LandingReducer = (state: LandingState = initialState, action) => {
             return {
                 ...state,
                 authenticated: true,
-                userID: action.userId
+                userID: action.userId,
+                userName: action.userId
             };
         case LOAD_ALL_POSTS:
             return {

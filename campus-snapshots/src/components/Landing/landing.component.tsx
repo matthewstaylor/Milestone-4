@@ -17,15 +17,17 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import ChangeHistoryTwoToneIcon from '@material-ui/icons/ChangeHistoryTwoTone';
 import DetailsTwoToneIcon from '@material-ui/icons/DetailsTwoTone';
+import axios from 'axios';
+import { PostInterface } from '../../models/post.model';
 
 export interface Props {
-  posts: Array<Object>, 
+  posts: Array<PostInterface>, 
   isAuthenticated: boolean,
   redirect: (string) => void
 }
 
 export interface Dispatch {
-
+  savePosts: (posts) => void
 }
 
 interface PropsCombined extends Props, Dispatch {
@@ -37,45 +39,23 @@ const sections = [
   'Issues',
 ];
 
-const featuredPosts = [
-  {
-    title: 'Post title',
-    date: 'Nov 16, 2019',
-    rating: 3,
-    description:
-      'Here we will have the post description. Lorem ipsum dolor sit amet, consectetur adipiscing elit,' +
-      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-      'nostrud exercitation ullamco laboris nisi ut aliquip.',
-    tags: ["tag1", "tag2", "tag3", "tag4"],
-    image: "https://source.unsplash.com/random",
-    postId: "1234"
-  },
-  {
-    title: 'Post title',
-    date: 'Nov 16, 2019',
-    rating: 4,
-    description:
-      'Here we will have the post description. Lorem ipsum dolor sit amet, consectetur adipiscing elit,' +
-      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-      'nostrud exercitation ullamco laboris nisi ut aliquip.',
-    tags: ["tag1", "tag2"],
-    image: "https://source.unsplash.com/random",
-    postId: "1234"
-  },
-  {
-    title: 'Post title',
-    date: 'Nov 16, 2019',
-    rating: 1,
-    description:
-      'Here we will have the post description. Lorem ipsum dolor sit amet, consectetur adipiscing elit,' +
-      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis ' +
-      'nostrud exercitation ullamco laboris nisi ut aliquip.',
-    tags: ["tag1", "tag2", "tag3"],
-    image: "https://source.unsplash.com/random",
-    postId: "1234"
-  }
+const getPosts = async (savePosts) => {
+  const formData = new FormData();
 
-];
+  const res = await axios.post(
+      "/~cen4010fal19_g12/campus_snapshots/server/api/getposts/",
+      formData
+  );
+  console.log(res.data);
+  savePosts(res.data.posts);
+}
+
+// 1970-01-01 00:00:00
+const formatDate = (date) => {
+  console.log(date);
+  let formattedDate = new Date(date.substring(0, 10) + 'T' + date.substring(11));
+  return (formattedDate.toLocaleString('default', { month: 'short' }) + ' ' + String(formattedDate.getDate()) + ', ' + String(formattedDate.getFullYear()));
+};
 
 export default function Landing(props: PropsCombined) {
   const classes = useStyles();
@@ -85,8 +65,10 @@ export default function Landing(props: PropsCombined) {
     if (!props.isAuthenticated) {
         props.redirect('/login');
     }
+    else{
+      getPosts(props.savePosts);
+    }
   }, [])
-
 
   return (
     <div>
@@ -123,7 +105,7 @@ export default function Landing(props: PropsCombined) {
       </Toolbar>
       {/* All posts */}
       <Grid container spacing={2}>
-        {featuredPosts.map(post => (
+        {props.posts ? props.posts.map(post => (
           <Grid item key={post.title} xs={12}>
             <CardActionArea component="a" href="#">
               <Card className={classes.card}>
@@ -136,7 +118,7 @@ export default function Landing(props: PropsCombined) {
                         <IconButton>
                           <ChangeHistoryTwoToneIcon />
                         </IconButton>
-                        <h1 className={classes.ratingZone}>{post.rating}</h1>
+                        <h1 className={classes.ratingZone}>{post.votes}</h1>
                         <IconButton>
                           <DetailsTwoToneIcon />
                         </IconButton>
@@ -146,14 +128,15 @@ export default function Landing(props: PropsCombined) {
                           {post.title}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                          {post.date}
+                          {/* {formatDate(post.created)} */}
+                          {post.created}
                         </Typography>
                         <Typography variant="subtitle1" paragraph>
-                          {post.description}
+                          {post.content}
                         </Typography>
                         <Grid container item xs={12} spacing={3}>
                           {
-                            post.tags.map((tag, index) => {
+                            ["tag1", "tag2", "tag3"].map((tag, index) => {
                               return <Grid item xs={3} key={index}>
                                 <Paper className={classes.postTag}>{tag}</Paper>
                               </Grid>
@@ -167,14 +150,14 @@ export default function Landing(props: PropsCombined) {
                 <Hidden xsDown>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={post.image}
+                    image={post.imgURL}
                     title={post.postId}
                   />
                 </Hidden>
               </Card>
             </CardActionArea>
           </Grid>
-        ))}
+        )) : ""}
       </Grid>
       {/* End of all posts */}
     </div>
